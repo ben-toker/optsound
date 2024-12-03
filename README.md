@@ -7,3 +7,8 @@ To install requirements:
 ```
 pip install requirements.txt
 ```
+
+To render the flask app:
+```
+python3 render.py
+```
