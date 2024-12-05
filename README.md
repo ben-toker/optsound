@@ -1,11 +1,19 @@
 ### venv build
-To create the virtual environment:
+To create the virtual environment, navigate to the source folder and build:
 ```
 python -m venv venv
 ```
+Activate (this is for macOS):
+```
+source venv/bin/Activate
+```
+Double check, should print venv filepath
+```
+which python3
+```
 To install requirements:
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 To render the flask app:
