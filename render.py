@@ -13,13 +13,14 @@ def index():
     ]
 
     # Use align* for proper line breaks in LaTeX
+   
     lp_model_latex = r"""
-    \text{{Maximize:}}  \quad {} \\
-    \text{{Subject to:}}  \\
-    """.format(objective_function)
-    
-    for constraint in constraints:
-        lp_model_latex += constraint + r" \\"  # Add line breaks
+    \begin{{array}}{{ll}}
+    \text{{Maximize:}} & {} \\
+    \text{{Subject to:}} & {}
+    \end{{array}}
+
+    """.format(objective_function, " \\\\ ".join(constraints))
 
     return render_template("index.html", lp_model_latex=lp_model_latex)
 
