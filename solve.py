@@ -3,7 +3,6 @@ import numpy as np
 
 
 def read_file(path):
-    
     with open(path, 'r') as model_file:
         lines = [line.strip() for line in model_file.readlines()]
 
@@ -80,4 +79,3 @@ def solve():
     x_solutions = [[var.name(),float(var.value)] for var in x_vars]
 
     return model_obj, model_constraints, opt_val, x_solutions
-
