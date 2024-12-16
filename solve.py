@@ -18,14 +18,19 @@ def read_file(path):
 
 def parse_constraints(x_vars, constraint_exps, num_vars, num_constraints):
     constraints = []
-
+    
     for i in range(num_constraints):
         exp = constraint_exps[i]
-        rhs = exp[-1]
+        rhs = int(exp[-1])
         op = exp[-2]
         lhs = 0
         for j in range(num_vars):
-            lhs += int(exp[j]) * x_vars[j] 
+            if exp[j][0] == '-':
+                coef = int(exp[j][1:]) * (-1)
+            else:
+                coef = int(exp[j])
+                
+            lhs += coef * x_vars[j] 
 
         if op == '<=':
             constraint = (lhs <= rhs)
@@ -64,16 +69,24 @@ def solve(path):
 
     print('-----------------------------')
     print(x_vars)
+    print(obj_exp)
     print('-----------------------------')
 
     ### PARSE OBJECTIVE FUNCTION ###
     obj = 0
-    for i in range(len(x_vars)): 
-        obj += (int(obj_exp[i]) * x_vars[i])
+    coef = 0
+    for i in range(len(x_vars)):   
+        if obj_exp[i][0] == '-':
+            coef = int(obj_exp[i][1:]) * (-1)
+        else:
+            coef = int(obj_exp[i])
+
+        obj += (coef * x_vars[i])
 
 
     ### PARSE CONSTRAINTS ###
     constraints = parse_constraints(x_vars,constraint_exps,num_vars, num_constraints)
+
 
     ### CREATE MODEL ###
     if problem_type == "max":
@@ -84,10 +97,21 @@ def solve(path):
     ### SOLVE MODEL ###
     problem.solve()
 
+
     ### RETURN RESULTS ###
     model_obj = str(problem.objective).replace(' @ ','')
     model_constraints = [str(c).replace(' @ ','').replace(' <= ', ' \\leq ').replace(' >= ',' \\geq ') for c in problem.constraints[:num_constraints]]
     opt_val = problem.value
+    
+    if problem.status in ["infeasible", "unbounded"]:
+        print(f"Problem could not be solved. Status: {problem.status}")
+        return None, None, None, None
+    
+    for var in x_vars:
+        print(var)
+        print(var.value)
+
+
     x_solutions = [[var.name(),int(var.value)] for var in x_vars]
 
     print(model_obj, '\n', model_constraints, '\n', opt_val, '\n', x_solutions)
