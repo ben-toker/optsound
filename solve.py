@@ -67,10 +67,6 @@ def solve(path):
     for i in range(num_vars):
         x_vars.append(cp.Variable(integer=True, name=(var_names[i])))
 
-    print('-----------------------------')
-    print(x_vars)
-    print(obj_exp)
-    print('-----------------------------')
 
     ### PARSE OBJECTIVE FUNCTION ###
     obj = 0
@@ -107,14 +103,8 @@ def solve(path):
         print(f"Problem could not be solved. Status: {problem.status}")
         return None, None, None, None
     
-    for var in x_vars:
-        print(var)
-        print(var.value)
-
-
     x_solutions = [[var.name(),int(var.value)] for var in x_vars]
 
-    print(model_obj, '\n', model_constraints, '\n', opt_val, '\n', x_solutions)
     return model_obj, model_constraints, opt_val, x_solutions
 
 
