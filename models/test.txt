@@ -1,0 +1,11 @@
+10,x11,x12,x13,x21,x22,x23,x31,x32,x33
+min 
+-1,-1,-1,0,0,0,1,1,1
+
+// each position can only have one song
+
+
+// each song can only be in one position
+1,1,1,0,0,0,0,0,0
+
+

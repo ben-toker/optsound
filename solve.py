@@ -7,14 +7,14 @@ def read_file(path):
         lines = [line.strip() for line in model_file.readlines()]
 
     n = lines[0].split(',')
-    num_vars = int(n[0])
-    num_constraints = int(n[1])
+    num_constraints = int(n[0])
+    x_vars = (n[1:])
 
     problem_type = lines[1]
     obj_exp = lines[2].split(',')
     constraint_exps = [line.split(',') for line in lines[3:]]
 
-    return num_vars, num_constraints, problem_type, obj_exp, constraint_exps
+    return x_vars, num_constraints, problem_type, obj_exp, constraint_exps
 
 def parse_constraints(x_vars, constraint_exps, num_vars, num_constraints):
     constraints = []
@@ -35,28 +35,40 @@ def parse_constraints(x_vars, constraint_exps, num_vars, num_constraints):
             constraint = (lhs >= rhs)
         elif op == '>':
             constraint = (lhs > rhs)
+        elif op == '=':
+            constraint = (lhs == rhs)
         
         constraints.append(constraint)
 
     for i in range(num_vars):
-        constraint = (x_vars[i] >= 0)
-        constraints.append(constraint)
+        constraint1 = (x_vars[i] >= 0)
+        constraints.append(constraint1)
+
+        constraint2 = (x_vars[i] <= 1)
+        constraints.append(constraint2)
 
     return constraints
 
-def solve():
+
+# later fix: add a line with the list of all the variable names wanted in order of appearance
+# this is relevant to variable creation
+def solve(path):
     ### READ MODEL TEXT FILE ###
-    num_vars,num_constraints,problem_type,obj_exp,constraint_exps = read_file('model.txt')
+    var_names,num_constraints,problem_type,obj_exp,constraint_exps = read_file(path)
 
-    ### CREATE VARIABLES ###
+    ### CREATE VARIABLES ### 
+    num_vars=len(var_names)
     x_vars = []
-    for i in range(1,num_vars+1):
-        x_vars.append(cp.Variable(integer=True, name=('x_'+str(i))))
+    for i in range(num_vars):
+        x_vars.append(cp.Variable(integer=True, name=(var_names[i])))
 
+    print('-----------------------------')
+    print(x_vars)
+    print('-----------------------------')
 
     ### PARSE OBJECTIVE FUNCTION ###
     obj = 0
-    for i in range(num_vars): 
+    for i in range(len(x_vars)): 
         obj += (int(obj_exp[i]) * x_vars[i])
 
 
@@ -76,6 +88,10 @@ def solve():
     model_obj = str(problem.objective).replace(' @ ','')
     model_constraints = [str(c).replace(' @ ','').replace(' <= ', ' \\leq ').replace(' >= ',' \\geq ') for c in problem.constraints[:num_constraints]]
     opt_val = problem.value
-    x_solutions = [[var.name(),float(var.value)] for var in x_vars]
+    x_solutions = [[var.name(),int(var.value)] for var in x_vars]
 
+    print(model_obj, '\n', model_constraints, '\n', opt_val, '\n', x_solutions)
     return model_obj, model_constraints, opt_val, x_solutions
+
+
+solve('models/test.txt')
