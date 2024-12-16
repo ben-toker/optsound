@@ -28,5 +28,5 @@ def index():
     return render_template("index.html", lp_model_latex=lp_model_latex)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=8080,debug=True)
 
