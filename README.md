@@ -40,7 +40,7 @@ This is where we parse the user input collected in **render.py**, which is used 
 
 The *model.txt* file format is built as follows:
 
-- **Line 0:** number of variables, number of constraints (not including the nonnegativity constraints).
+- **Line 0:** number of constraints listed in the file, list of all decision variable names, separated by commas.
 - **Line 1:** type of problem, represented as either 'max' or 'min'.
 - **Line 2:** objective function coefficients, separated by commas.
 - **Constraint lines:** variable coefficients, operator symbol and the constraint's rhs value, separated by commas.
@@ -55,10 +55,10 @@ We read *model.txt* and construct it as an integer programming optimization prob
 Creates and returns the playlist based on the set of optimal values found in **solve.py**. 
 
 ## order of events
-1. user input is collected **(render.py)**
+1. user input is collected **(auth.py)**
 2. user input is used to model the corresponding optimization problem **(parse.py)**
-3. a representation of the model is written to *model.txt* **(parse.py)**
-4. *model.txt* is used to construct the optimization problem **(solve.py)**
+3. a representation of the model is written to *models/custom.txt* **(parse.py)**
+4. *custom.txt* is used to construct the optimization problem **(solve.py)**
 5. the problem is solved **(solve.py)**
 6. the constructed objective function, constraints, and optimal values are returned **(solve.py)**
 7. the playlist is created based on the optimal values **(playlist.py)**

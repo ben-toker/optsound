@@ -1,16 +1,15 @@
 from flask import Flask, render_template
+from solve import solve
+
 
 app = Flask(__name__)
 
 @app.route("/")
 def index():
+    model_obj, model_constraints, opt_val, x_solutions = solve('models/test.txt')
     # Example: Procedurally generate LP model components
-    objective_function = r"3x_1 + 5x_2"
-    constraints = [
-        r"x_1 + 2x_2 \leq 6",
-        r"3x_1 + 2x_2 \leq 12",
-        r"x_1, x_2 \geq 0"
-    ]
+    objective_function = model_obj
+    constraints = model_constraints
 
     # Use align* for proper line breaks in LaTeX
     
@@ -28,5 +27,5 @@ def index():
     return render_template("index.html", lp_model_latex=lp_model_latex)
 
 if __name__ == "__main__":
-    app.run(port=8080,debug=True)
+    app.run(port=3000,debug=True)
 

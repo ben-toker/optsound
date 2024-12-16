@@ -98,11 +98,6 @@ def solve(path):
     model_obj = str(problem.objective).replace(' @ ','')
     model_constraints = [str(c).replace(' @ ','').replace(' <= ', ' \\leq ').replace(' >= ',' \\geq ') for c in problem.constraints[:num_constraints]]
     opt_val = problem.value
-    
-    if problem.status in ["infeasible", "unbounded"]:
-        print(f"Problem could not be solved. Status: {problem.status}")
-        return None, None, None, None
-    
     x_solutions = [[var.name(),int(var.value)] for var in x_vars]
 
     return model_obj, model_constraints, opt_val, x_solutions
