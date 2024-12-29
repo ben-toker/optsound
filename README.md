@@ -40,7 +40,7 @@ This is where we parse the user input collected in **render.py**, which is used 
 
 The *model.txt* file format is built as follows:
 
-- **Line 0:** number of constraints listed in the file, list of all decision variable names, separated by commas.
+- **Line 0:** list of all decision variable names, separated by commas.
 - **Line 1:** type of problem, represented as either 'max' or 'min'.
 - **Line 2:** objective function coefficients, separated by commas.
 - **Constraint lines:** variable coefficients, operator symbol and the constraint's rhs value, separated by commas.
