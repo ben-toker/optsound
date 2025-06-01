@@ -1,3 +1,6 @@
+# Current project state
+Due to Spotify locking down its API for feature classification, this project is currently not being worked on. We're thinking about open-source feature classification alternatives for future work, but currently this is not in active development.
+
 # Usage
 ## venv build
 To create the virtual environment, navigate to the source folder and build:
