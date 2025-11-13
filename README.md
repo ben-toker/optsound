@@ -1,4 +1,5 @@
-# Current project state
+<img width="1480" height="499" alt="optsound" src="https://github.com/user-attachments/assets/a4c68f26-2329-46d9-9a3e-1699e92a6212" />
+
 
 We have resumed development with a new approach. Instead of relying on Spotify’s API for feature classification, we now train and use an in-house machine learning model to classify tracks based on audio features. These predicted classifications serve as inputs to the optimization model. The optimization workflow and platform remain the same, but all feature data now comes from our own models rather than external APIs.
 
